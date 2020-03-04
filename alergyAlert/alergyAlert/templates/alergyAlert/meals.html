@@ -1,0 +1,21 @@
+{% extends 'alergyAlert/base.html' %}
+
+{% block content_title %}
+                <h2>The list of your meals</h2>
+       {% endblock %}
+       {% block content %}
+                <ul>
+                    {% for meal in object_list %}
+                        {% block element %}
+                            <li>name: {{ meal.name }}</li>
+                            description: {{ meal.description }}<br>
+                            date: {{ meal.date }}<br>
+                            alergens: {% for alergen in meal.alergens.all %}
+                                    {{ alergen.name }}<br>
+                                        {% endfor %}
+
+                        {% endblock %}
+                    {% endfor %}
+                </ul>
+       {% endblock %}
+

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block logo %}
+        <img src="{% static 'images/logo.png' %}" alt="Tu powinno być logo" >
+    {% endblock %}
+   {% block page_content %}
+      {% block page_title %}
+            <h1>Hello in the Alergy world</h1>
+      {% endblock %}
+       {% block content_title %}
+                <h2></h2>
+       {% endblock %}
+       {% block content %}
+                <ul>
+                    {% for object in objects %}
+                        {% block element %}
+                            <li><a href='/{% block link %}class{% endblock %}/{}'>{}</a></li>
+                        {% endblock %}
+                    {% endfor %}
+                </ul>
+       {% endblock %}
+       {% block additional %}
+       {% endblock %}
+   {% endblock %}
+
+
+{% if user.is_authenticated %}
+    Hello {{ user }} <a href="/logout/">Logout</a>
+{% else %}
+    Hello, guest  <a href="/login/">Login</a>
+{% endif %}
+</body>
+</html>
