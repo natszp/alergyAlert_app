@@ -15,3 +15,4 @@ class AddMealForm(forms.Form):
         description = forms.CharField(label='description', required=False)
         alergens = forms.MultipleChoiceField(choices=ALERGENS, widget=forms.CheckboxSelectMultiple)
 
+

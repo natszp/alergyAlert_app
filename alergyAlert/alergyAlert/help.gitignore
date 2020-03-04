@@ -29,3 +29,6 @@ class ResetPasswordForm(forms.Form):
             raise forms.ValidationError('new password and repeat new password must be the same')
         if old_password == new_password:
             raise forms.ValidationError('old password cannot be the same as the new one')
+
+
+
