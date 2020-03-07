@@ -10,9 +10,17 @@ class LoginForm(forms.Form):
     password = forms.CharField(label='password', max_length=120,
                                widget=forms.PasswordInput)
 
-class AddMealForm(forms.Form):
-        name = forms.CharField(label='name', max_length=250, required=True)
-        description = forms.CharField(label='description', required=False)
-        alergens = forms.MultipleChoiceField(choices=ALERGENS, widget=forms.CheckboxSelectMultiple)
+class MealForm(forms.ModelForm):
 
+        class Meta:
+            model = Meal
+            fields = ['name', 'description', 'alergens']
+            widgets = {
+                'alergens': forms.CheckboxSelectMultiple,
+            }
 
+class SymptomsForm(forms.ModelForm):
+
+        class Meta:
+            model = Symptom
+            fields = ['name', 'description', 'strength']

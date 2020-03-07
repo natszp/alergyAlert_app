@@ -50,12 +50,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'alert.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'core', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'alert.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 
@@ -113,7 +113,7 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
 
 try:
-    from alert.local_settings import DATABASES
+    from core.local_settings import DATABASES
 except ModuleNotFoundError:
     print("Brak konfiguracji bazy danych w pliku local_settings.py!")
     print("Uzupełnij dane i spróbuj ponownie!")

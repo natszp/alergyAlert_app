@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+from django.template.defaultfilters import slugify
 
 ALERGENS = (
     (1, 'gluten'),
@@ -25,7 +26,6 @@ STRENGTH = (
     (4, 'rather strong'),
     (5, 'very strong'),
 )
-
 class Symptom(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -37,14 +37,19 @@ class Symptom(models.Model):
 
 class Meal(models.Model):
     name = models.CharField(max_length=250)
+    slug = models.SlugField(unique=True, max_length=50)
     description = models.TextField()
     date = models.DateField(auto_now=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     alergens = models.ManyToManyField(Alergen)
     symptoms = models.ManyToManyField(Symptom)
-    # how_allergizing = models.IntegerField(max_length=100)
-    #
-    # def how_allergize(self, symptoms, alergens):
-    #    pass
+    how_allergizing = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Meal, self).save(*args, **kwargs)
+
+    def how_allergize(self, symptoms, alergens):
+       pass
 
 
