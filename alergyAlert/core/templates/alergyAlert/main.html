@@ -1,14 +1,16 @@
 {% extends 'alergyAlert/base.html' %}
 
 {% block content_title %}
-                <h2>The most popular alergens</h2>
-       {% endblock %}
-       {% block content %}
-                <ul>
-                    {% for alergen in alergens %}
-                        {% block element %}
-                            <li>{{ alergen.name }}</li>
-                        {% endblock %}
-                    {% endfor %}
-                </ul>
-       {% endblock %}
+    <h2>The most popular alergens</h2>
+{% endblock %}
+{% block content %}
+    <ul>
+        {% for alergen in alergens %}
+            {% block element %}
+                <li class="alergen">{{ alergen.name }}</li>
+            {% endblock %}
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+

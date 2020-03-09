@@ -10,24 +10,22 @@
         <img src="{% static 'alergyAlert/images/logo.png' %}" alt="Tu powinno być logo" >
     {% endblock %}
    {% block page_content %}
-      {% block page_title %}
+       {% block page_title %}
             <h1>Hello in the Alergy world</h1>
-      {% endblock %}
+       {% endblock %}
        {% block content_title %}
                 <h2></h2>
        {% endblock %}
+
        {% block content %}
-                <ul>
-                    {% for object in objects %}
-                        {% block element %}
-                            <li><a href='/{% block link %}class{% endblock %}/{}'>{}</a></li>
-                        {% endblock %}
-                    {% endfor %}
-                </ul>
        {% endblock %}
+
        {% block additional %}
-       {% endblock %}
-   {% endblock %}
+       {% endblock additional%}
+
+
+
+    {% endblock page_content %}
 
 
 {% if user.is_authenticated %}

@@ -1,3 +1,5 @@
+import urllib
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import request
@@ -11,12 +13,15 @@ from django.views.generic.detail import SingleObjectMixin
 
 from alergyAlert.forms import LoginForm, MealForm, SymptomsForm
 from alergyAlert.models import *
-
+import requests
+from requests.exceptions import HTTPError
+import json
 
 class MainView(View):
     def get(self, request):
         alergens = Alergen.objects.order_by('name')
         return render(request, 'alergyAlert/main.html', {'alergens':alergens})
+
 
 class LoginView(View):
 
@@ -59,32 +64,40 @@ class MealDetailView(LoginRequiredMixin, View):
 
     def get(self, request, slug):
         meal = get_object_or_404(Meal, slug=slug)
-        return render(request, 'alergyAlert/meal_details.html', {'meal': meal})
+        meal.how_allergizing = meal.how_allergize()
+        meal.save()
+        form = SymptomsForm()
+        external_meal_data = self.get_api(meal.name)
+        return render(request, 'alergyAlert/meal_details.html', {'meal': meal, 'form': form, 'external_meal_data': external_meal_data})
 
     def post(self, request, slug):
+        meal = get_object_or_404(Meal, slug=slug)
         form = SymptomsForm(request.POST)
-        form_class = SymptomsForm
         if form.is_valid():
             name = form.cleaned_data['name']
             description = form.cleaned_data['description']
             strength = form.cleaned_data['strength']
-            new_symptom = Symptom.objects.create(name=name, description=description, strength=strength)
-            return redirect('meals')
+            Symptom.objects.create(name=name, description=description, strength=strength, meal=meal)
+            return redirect('meal_details', slug)
         else:
             return render(request, 'alergyAlert/meal_details.html', context={'form': form})
 
-    # model = Meal
-    # form_class = SymptomsForm
-    # template_name = 'alergyAlert/meal_details.html'
-    # success_url = reverse_lazy('meals')
-    #
-    # def get_queryset(self):
-    #     queryset = super(MealDetailView, self).get_queryset()
-    #     return queryset.filter(user_id__id=self.request.user.id, slug=self.kwargs.get(self.slug_url_kwarg))
-
-    # def form_valid(self, form):
-    #     form.instance.user_id = self.request.user
-    #     return super(MealDetailView, self).form_valid(form)
+    def get_api(self, mealName):
+        external_search = requests.get('https://trackapi.nutritionix.com/v2/search/instant',
+                params={'query': mealName},
+                headers={
+                    'Accept': 'application/json',
+                    'x-app-id': 'd88ace4e',
+                    'x-app-key': '185765650552a82832cfc281589781a5',
+                    'x-remote-user-id': '0',
+                })
+        if (external_search.status_code == 200 and external_search.text is not None):
+            parsed_external_text = json.loads(external_search.text)
+        else:
+            parsed_external_text = {}
+        nf_calories_col = [x['nf_calories'] for x in parsed_external_text['branded'] if x['nf_calories'] is not None]
+        kcal_avg = sum(nf_calories_col)/len(nf_calories_col)
+        return (round(kcal_avg))
 
 
 class AddMealView(LoginRequiredMixin, CreateView):
@@ -113,6 +126,7 @@ class UpdateMealView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('meals')
+
 
 class DeleteMealView(LoginRequiredMixin, DeleteView):
     model = Meal

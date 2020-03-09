@@ -6,15 +6,16 @@
     date: {{ meal.date }}<br>
     alergens: {% for alergen in meal.alergens.all %}
     {{ alergen.name }}<br>
-    symptoms: {% for symptom in meal.symptoms.all %}
-    {{ symptom.name }}<br>
-{% endfor %}
     {% endfor %}
- <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <input type="submit" value="{{ submit_value|default:"Add your symptoms" }}">
- </form>
+    symptoms: {% for symptom in meal.symptom_set.all %}
+        {{ symptom.name }}<br>
+    {% endfor %}
+    how meal is alergizzing: {{ meal.how_allergizing  }}<br>
+     <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="{{ submit_value|default:"Add your symptoms" }}">
+     </form>
 
+    Approximate number of calories based on UK & USA data: {{ external_meal_data }}<br>
 {% endblock %}
-
