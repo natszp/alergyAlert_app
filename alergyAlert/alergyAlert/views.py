@@ -64,11 +64,13 @@ class MealDetailView(LoginRequiredMixin, View):
 
     def get(self, request, slug):
         meal = get_object_or_404(Meal, slug=slug)
-        meal.how_allergizing = meal.how_allergize()
-        meal.save()
+        meal.how_allergizing = meal.alergen_strength()
+        print(meal.alergen_strength())
         form = SymptomsForm()
+        meal.save(update_fields=['how_allergizing'])
         external_meal_data = self.get_api(meal.name)
         return render(request, 'alergyAlert/meal_details.html', {'meal': meal, 'form': form, 'external_meal_data': external_meal_data})
+
 
     def post(self, request, slug):
         meal = get_object_or_404(Meal, slug=slug)

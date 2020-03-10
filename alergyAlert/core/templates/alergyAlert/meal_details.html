@@ -10,7 +10,7 @@
     symptoms: {% for symptom in meal.symptom_set.all %}
         {{ symptom.name }}<br>
     {% endfor %}
-    how meal is alergizzing: {{ meal.how_allergizing  }}<br>
+    how meal is alergizing: {{ meal.how_allergizing  }}<br>
      <form method="post">
             {{ form.as_p }}
             {% csrf_token %}

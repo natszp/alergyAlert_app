@@ -18,11 +18,6 @@ STRENGTH = (
     (5, 'very strong'),
 )
 
-# HOW_ALERGIZING = (
-#     (1, 'poor'),
-#     (2, 'moderate'),
-#     # (3, 'strong'),
-# )
 class Meal(models.Model):
     name = models.CharField(max_length=250)
     slug = models.SlugField(unique=True, max_length=50)
@@ -30,20 +25,20 @@ class Meal(models.Model):
     date = models.DateField(auto_now=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     alergens = models.ManyToManyField(Alergen)
-    how_allergizing = models.IntegerField(default=0)
+    how_allergizing = models.CharField(max_length=50)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Meal, self).save(*args, **kwargs)
 
-    def how_allergize(self):
+    def alergen_strength(self):
         number_of_alergens = self.alergens.all().count()
-        if number_of_alergens<=2:
-            self.how_allergizing = 1
-        elif number_of_alergens==3:
-            self.how_allergizing = 2
+        if number_of_alergens<=1:
+            self.how_allergizing = 'poorly allergizing'
+        elif 2<=number_of_alergens<=3:
+            self.how_allergizing = 'moderately allergizing'
         else:
-            self.how_allergizing = 3
+            self.how_allergizing = 'strongly allergizing'
 
 
 class Symptom(models.Model):
