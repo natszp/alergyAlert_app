@@ -20,6 +20,7 @@ from alergyAlert.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view(), name='main'),
+    path('about/', AboutView.as_view(), name='about'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('meals/', MealsView.as_view(), name='meals'),
@@ -27,5 +28,7 @@ urlpatterns = [
     path('add_meal/', AddMealView.as_view(), name='add_meal'),
     path('update_meal/<str:slug>', UpdateMealView.as_view(), name='update_meal'),
     path('delete_meal/<str:slug>', DeleteMealView.as_view(), name='delete_meal'),
+    path('recommendations/', RecommendationsView.as_view(), name='recommendations'),
+
 
 ]

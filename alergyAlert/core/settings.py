@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'alergyAlert',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'alergyAlert.my_context_processor.my_cp',
             ],
+            'libraries':{
+                'mytags': 'alergyAlert.templatetags.mytags',
+
+            }
         },
     },
 ]
@@ -97,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
@@ -111,6 +117,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 try:
     from core.local_settings import DATABASES

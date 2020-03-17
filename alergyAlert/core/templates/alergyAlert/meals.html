@@ -1,15 +1,15 @@
 {% extends 'alergyAlert/base.html' %}
 
+
 {% block content_title %}
                 <h2>The list of your meals</h2>
        {% endblock %}
        {% block content %}
-                <ul>
+           <ul>
                     {% for meal in object_list %}
                         {% block element %}
-                            <li> name: {{ meal.name }}</li>
-                            slug: <a href='/meal/{{meal.slug}}'>{{ meal.slug }}</a>
-                                date: {{ meal.date }}<br>
+                            <li>Name: {{ meal.name }}</li>
+                            Date: {{ meal.date }}<br>
                             <a href="/meal/{{ meal.slug }}">Details</a>
 
                     <br>
@@ -18,9 +18,9 @@
                     <a href="/delete_meal/{{ meal.slug }}">Delete></a>
                         {% endblock %}
                     {% endfor %}
-                </ul>
+           </ul>
              <form action='{% url 'add_meal' %}'>
-                <button type="submit">Add meal</button>
+              <button type="submit" class='btn btn-success'>Add meal</button>
             </form>
 
             {% endblock %}

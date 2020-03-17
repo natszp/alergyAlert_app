@@ -25,7 +25,7 @@ class Meal(models.Model):
     date = models.DateField(auto_now=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     alergens = models.ManyToManyField(Alergen)
-    how_allergizing = models.CharField(max_length=50)
+    how_allergizing = models.CharField(null=True, max_length=50)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -33,13 +33,12 @@ class Meal(models.Model):
 
     def alergen_strength(self):
         number_of_alergens = self.alergens.all().count()
-        if number_of_alergens<=1:
+        if number_of_alergens == 1 or None:
             self.how_allergizing = 'poorly allergizing'
         elif 2<=number_of_alergens<=3:
             self.how_allergizing = 'moderately allergizing'
         else:
             self.how_allergizing = 'strongly allergizing'
-
 
 class Symptom(models.Model):
     name = models.CharField(max_length=100)

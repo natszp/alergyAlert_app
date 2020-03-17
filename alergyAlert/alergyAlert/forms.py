@@ -12,10 +12,14 @@ class LoginForm(forms.Form):
 
 class MealForm(forms.ModelForm):
 
-        class Meta:
-            model = Meal
-            fields = ['name', 'description', 'alergens']
-            widgets = {
+    def __init__(self, *args, **kwargs):
+        super(MealForm, self).__init__(*args, **kwargs)
+        self.fields['alergens'].required = False
+
+    class Meta:
+        model = Meal
+        fields = ['name', 'description', 'alergens']
+        widgets = {
                 'alergens': forms.CheckboxSelectMultiple,
             }
 

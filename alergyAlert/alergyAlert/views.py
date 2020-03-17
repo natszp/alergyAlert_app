@@ -22,12 +22,15 @@ class MainView(View):
         alergens = Alergen.objects.order_by('name')
         return render(request, 'alergyAlert/main.html', {'alergens':alergens})
 
+class AboutView(View):
+    def get(self, request):
+        return render(request, 'alergyAlert/about.html')
 
 class LoginView(View):
 
     def get(self, request):
         form = LoginForm()
-        return render(request, 'alergyAlert/form.html', {'form': form})
+        return render(request, 'alergyAlert/login.html', {'form': form})
 
     def post(self, request):
         form = LoginForm(request.POST)
@@ -136,3 +139,9 @@ class DeleteMealView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('meals')
+
+class RecommendationsView(LoginRequiredMixin, View):
+    def get(self, request):
+        not_recommended = Meal.objects.filter(how_allergizing="strongly allergizing")
+        # not_recommended = Meal.objects.filter(how_allergizing="strongly allergizing")
+        return render(request, 'alergyAlert/recommendations.html', {'meals': not_recommended})

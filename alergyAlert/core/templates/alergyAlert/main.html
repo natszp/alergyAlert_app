@@ -1,16 +1,28 @@
 {% extends 'alergyAlert/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content_title %}
     <h2>The most popular alergens</h2>
 {% endblock %}
+
 {% block content %}
-    <ul>
+    <ul class="list-group list-group-flush">
         {% for alergen in alergens %}
             {% block element %}
-                <li class="alergen">{{ alergen.name }}</li>
+                <li class="list-group-item" style="text-align: center">{{ alergen.name }}</li>
             {% endblock %}
         {% endfor %}
     </ul>
+
+<nav class="navbar navbar-light" style="background-color:lightgrey;">
+  <a class="navbar-brand" href="{% url 'meals' %}">Check your meals</a>
+</nav>
+<nav class="navbar navbar-light" style="background-color: darkgrey;">
+  <a class="navbar-brand" href="{% url 'recommendations' %}">Recommendations</a>
+</nav>
+<nav class="navbar navbar-light" style="background-color:dimgrey; ">
+  <a class="navbar-brand" href="about">About this app</a>
+</nav>
 
 {% endblock %}
 

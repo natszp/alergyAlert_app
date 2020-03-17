@@ -1,21 +1,43 @@
 {% extends 'alergyAlert/base.html' %}
+{% load mytags %}
+{% load crispy_forms_tags %}
 
-{% block content %}
-    <li>name: {{ meal.name }}</li>
-    description: {{ meal.description }}<br>
-    date: {{ meal.date }}<br>
-    alergens: {% for alergen in meal.alergens.all %}
-    {{ alergen.name }}<br>
-    {% endfor %}
-    symptoms: {% for symptom in meal.symptom_set.all %}
-        {{ symptom.name }}<br>
-    {% endfor %}
-    how meal is alergizing: {{ meal.how_allergizing  }}<br>
-     <form method="post">
-            {{ form.as_p }}
+
+{% block content_title %}
+<h2>Detailed view of: {{ meal.name }}</h2>
+
+
+    Name: {{ meal.name }} <br>
+    Description: {{ meal.description }}<br>
+    Date: {{ meal.date }}<br>
+    Alergens:<br>
+        {% for alergen in meal.alergens.all %}
+            {{ alergen.name }}<br>
+        {% endfor %}
+    Symptoms: <br>
+        {% for symptom in meal.symptom_set.all %}
+            {{ symptom.name }}<br>
+        {% endfor %}
+    How meal is alergizing: {{ meal.how_allergizing  }}<br>
+    {% if meal.how_allergizing == 'strongly allergizing' %}
+        <i class="far fa-frown" style="font-size:48px;color:firebrick;"></i>
+
+     {% elif meal.how_allergizing == 'moderately allergizing' %}
+        <i class="far fa-meh" style="font-size:48px;color:dimgray;"></i>
+
+    {% else %}
+        <i class="far fa-smile" style="font-size:48px;color:yellowgreen;"></i>
+    {% endif %}
+
+    <p>Approximate number of calories of {{ meal.name|bold }} in a serving based on Canada & USA data: {{ external_meal_data }}</p><br>
+
+    <br><h3>You can add your symptoms:</h3>
+
+     <form method="post" novalidate>
+            {{ form|crispy }}
             {% csrf_token %}
-            <input type="submit" value="{{ submit_value|default:"Add your symptoms" }}">
+         <button type="submit" class='btn btn-success'>Add symptoms</button>
      </form>
 
-    Approximate number of calories based on UK & USA data: {{ external_meal_data }}<br>
+
 {% endblock %}

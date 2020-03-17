@@ -1,13 +1,14 @@
 {%  extends 'alergyAlert/base.html' %}
 {% block content_title %}
     <h1>
-    {{ title|default:"Formularz" }}
+    {{ title|default:"Delete" }}
     </h1>
 {% endblock %}
 
 {% block content %}
    <form method="post">{% csrf_token %}
     <p>Are you sure you want to delete "{{ object.name }}"?</p>
-    <input type="submit" value="Confirm">
+       <button type="submit" class='btn btn-success'>Confirm</button>
+
 </form>
 {% endblock %}

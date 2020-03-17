@@ -1,0 +1,18 @@
+{%  extends 'alergyAlert/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content_title %}
+    <h1>
+    {{ title|default:"Formularz" }}
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {{ form.login|as_crispy_field }}
+        {{ form.password|as_crispy_field }}
+        {% csrf_token %}
+        <input type="submit" value="{{ submit_value|default:"Wyślij" }}">
+    </form>
+{% endblock %}

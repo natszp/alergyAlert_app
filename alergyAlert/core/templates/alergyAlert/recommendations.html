@@ -1,0 +1,19 @@
+{% extends 'alergyAlert/base.html' %}
+
+
+{% block content_title %}
+    <h2>Meals not recommended for you</h2>
+       {% endblock %}
+       {% block content %}
+           <p>Meals classified as strongly allergizing based on your description:</p>
+           <ul>
+                    {% for meal in meals %}
+                        {% block element %}
+                            <li>Name: {{ meal.name }}</li>
+                            <a href="/meal/{{ meal.slug }}">Details</a>
+
+                        {% endblock %}
+                    {% endfor %}
+           </ul>
+
+            {% endblock %}
