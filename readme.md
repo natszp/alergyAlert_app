@@ -1,4 +1,3 @@
-
 #  alergyAlert
 app in Django for alergy sufferers to collect data on daily menu and make observations of food alergies symptoms.
 
@@ -8,7 +7,7 @@ app in Django for alergy sufferers to collect data on daily menu and make observ
 - django-cors-headers == 3.2.1,
 - psycopg2 == 2.7.4,
 - pgAdmin4
-- [API nutritionix] (https://developer.nutritionix.com/docs/v2)
+- [API nutritionix](https://developer.nutritionix.com/docs/v2)
 
 ## Usage
 Add your meals and observe alergies' symptoms. Reccomendations system and nutritionix API counting number of kcal in a serving of a given meal included.
