@@ -5,6 +5,7 @@ app in Django for alergy sufferers to collect data on daily menu and make observ
 
 - django == 2.2.9,
 - django-cors-headers == 3.2.1,
+- django-crispy-forms == 1.9.0,
 - psycopg2 == 2.7.4,
 - pgAdmin4
 - [API nutritionix](https://developer.nutritionix.com/docs/v2)
